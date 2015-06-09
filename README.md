@@ -13,12 +13,14 @@ Why
 
 The PowerVault 124T is a nice tape autoloader, but there are some annoying things with it.
 
-In particular, not having the possibility to eject or load tapes other than through the LCD menu or the web administration is a pain in the a**.
+In particular, not having the possibility to eject or load tapes other than through the LCD menu or the web administration panel is a pain in the a**.
 
 It's even more annoying when you try to automate your backup management as much as possible (backups are already boring enough).
 Simple use cases like detecting tapes that are full in Bacula and automaticaly ejecting them is impossible to automate.
 
-Tapemgr-124t utilities offers a way to expose most of the tape operations from the LCD menu to the command line. The perl library can also be used.
+Tapemgr-124t utilities offers a way to expose most of the tape operations from the LCD menu/web administration panel to the command line, including actions not available through the mtx command.
+
+The perl library can also be used.
 
 Dependancies
 ------------
@@ -33,10 +35,12 @@ Command line
 Tapemgr-124t comes with 4 utilities:
 
 ```bash
-# eject a tape (you still have to pick it up from the mail slot, this script will not put it on a shelf for you)
+# eject a tape (you still have to pick it up from the mail slot, 
+# this script will not put it on a shelf for you)
 $ 124t-eject -H <tape recoreder ip/host> -u <login> -p <password> -s <slot id>
 
-# load a tape, if -s is specified, will load tape in this slot, otherwise in first free slot
+# load a tape, if -s is specified, it will load the tape in the specified slot, 
+# otherwise in the first free slot
 $ 124t-load  -H <tape recoreder ip/host> -u <login> -p <password> [-s <slot id>]
 
 # move tape from slot1 to slot2
@@ -46,7 +50,7 @@ $ 124t-move -H <tape recoreder ip/host> -u <login> -p <password> -s <slot1> -d <
 $ 124t-status -H <tape recoreder ip/host> -u <login> -p <password> [-n]
 ```
 
-See --help for more details.
+See **--help** option of each command for more details.
 
 Library
 -------
