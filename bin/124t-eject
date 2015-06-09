@@ -1,0 +1,59 @@
+#!/usr/bin/env perl
+
+use strict;
+use Getopt::Long qw(:config no_ignore_case);
+use TAPEMGR_124T::Actions;
+
+my $program = '124t-eject';
+
+my $help_content = "usage: 
+   $program [-h] -u <user> -p <password> -H <host> -s <slot>
+
+Command line utility to eject a tape from a powervault 124t 
+
+arguments:
+    -H, --host     : hostname/ip of the powervault 124t   
+    -u, --user     : login of the web administration
+    -p, --password : password
+    -s, --slot     : slot number to eject
+
+";
+
+my $user=undef;
+my $password=undef;
+my $host=undef;
+my $slot=undef;
+my $help=0;
+
+#we get the arguments
+if (not(GetOptions (
+            "u|user=s"     => \$user,
+            "p|password=s" => \$password,
+            "H|host=s"     => \$host,
+            "s|slot=s"     => \$slot,
+            "h|help"       => \$help,
+   ))){
+    print "Error in command line arguments\n"; exit 3;
+}
+
+$| = 1;
+
+if ($help) {
+    print $help_content;
+    exit 1;
+}
+
+if (not($user or $password or $host or $slot)){
+    print "Error: missing parameter(s)\n\n";
+    print $help_content;
+    exit 1;
+}
+
+# init the module
+my $tape = TAPEMGR_124T::Actions->new(
+    host     => $host,
+    login    => $user,
+    password => $password,
+);
+
+$tape->eject_tape($slot);
